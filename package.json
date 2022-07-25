@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "pnpm generate:images && pnpm astro:build",
     "preview": "astro preview",
-    "generate:images": "ts-node tools/images.ts"
+    "generate:images": "ts-node tools/images.ts",
+    "astro:build": "astro build"
   },
   "devDependencies": {
     "@astrojs/preact": "^0.5.2",

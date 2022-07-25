@@ -4,7 +4,7 @@ import processImages from './lib/process-images';
 
 processImages({
   baseDir: 'images',
-  outDir: 'public/assets/images',
+  outDir: 'public/images',
   images: [
     {
       imagePath: 'bg/*',
