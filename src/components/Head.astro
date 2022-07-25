@@ -1,4 +1,5 @@
 ---
+import path from 'path';
 import {
   META_IMAGE,
   PAGE_DESCRIPTION,
@@ -22,6 +23,8 @@ const {
   metaImage = META_IMAGE,
   scripts,
 } = Astro.props as Props;
+
+const metaImageUrl = path.join(Astro.site.toString(), metaImage);
 ---
 
 {/* Global Metadata */}
@@ -45,13 +48,14 @@ const {
 <meta property="og:url" content={canonicalURL.toString()} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={metaImage} />
+<meta property="og:image" content={metaImageUrl} />
 
 {/* Twitter */}
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL.toString()} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={metaImage} />
+<meta property="twitter:image" content={metaImageUrl} />
+<meta property="twitter:site" content="@sztobar" />
 
 {scripts?.map((src) => <script async src={src} />)}
