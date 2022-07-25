@@ -1,10 +1,10 @@
 ---
-import path from 'path';
 import {
   META_IMAGE,
   PAGE_DESCRIPTION,
   PAGE_TITLE,
 } from '../../tools/lib/constants';
+import { Debug } from 'astro/components';
 
 import '../styles/globals.css';
 
@@ -23,9 +23,9 @@ const {
   metaImage = META_IMAGE,
 } = Astro.props as Props;
 
-const metaImageUrl = path.join(Astro.site.toString(), metaImage);
+const metaImageUrl = new URL(Astro.site);
+metaImageUrl.pathname = metaImage;
 ---
-
 {/* Global Metadata */}
 <meta charset="utf-8" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
