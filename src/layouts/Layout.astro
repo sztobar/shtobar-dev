@@ -1,0 +1,47 @@
+---
+import Logo from '../components/Logo';
+import Menu from '../components/Menu';
+import Background from '../components/Background';
+import MobileMenu from '../components/MobileMenu';
+import Footer from '../components/Footer';
+import Head from '../components/Head.astro';
+
+interface Props {
+  title?: string;
+  metaImage?: string;
+  description?: string;
+  canonicalURL: string | URL;
+  scripts?: string[];
+}
+
+const { title, description, metaImage, canonicalURL, scripts } =
+  Astro.props as Props;
+---
+
+<html>
+  <head>
+    <Head
+      title={title}
+      description={description}
+      metaImage={metaImage}
+      canonicalURL={canonicalURL}
+      scripts={scripts}
+    />
+  </head>
+  <body>
+    <div class="flex flex-col h-full">
+      <Background />
+      <div
+        class="w-full max-w-3xl flex-1 flex flex-col px-4 mx-auto pb-5 dark:bg-zinc-800 dark:text-zinc-200"
+      >
+        <header class="flex flex-col items-stretch">
+          <Logo />
+          <Menu />
+        </header>
+        <MobileMenu />
+        <main class="page-contents flex-1"><slot /></main>
+        <Footer />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+---
+import { PAGE_TITLE } from '../../tools/lib/constants';
+import Layout from '../layouts/Layout.astro';
+import Image from '../components/Image';
+---
+
+<Layout title={`404 - ${PAGE_TITLE}`} canonicalURL={Astro.canonicalURL}>
+  <section>
+    <h2 class="page-heading">Oops a 404 page</h2>
+    <div class="relative">
+      <Image
+        className="object-cover mb-2"
+        src="/images/bg/404_736w.jpg"
+        alt="Not all that wander are lost, but I sure am"
+      />
+      <span
+        >Wandering raccon from:
+        <a href="https://unsplash.com/photos/ypFXAZahdVE">Unsplash</a>
+      </span>
+    </div>
+  </section>
+</Layout>

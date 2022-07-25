@@ -9,7 +9,7 @@ tag: webdev
 
 Typescript version 4.7 introduces a feature that I missed for some time. It's called [Instantiation Expressions](https://devblogs.microsoft.com/typescript/announcing-typescript-4-7/#instantiation-expressions) and it's a way of creating aliases for generic functions and classes. The feature seemed super promising at the beginning but soon I realized that it still missed some key features for me. Nonetheless, it's a useful addition and I want to share an interesting example where I thought it might be used.
 
-I stumbled upon a type-aliasing issue in my work when was creating a form component in React codebase. Each type of form has a corresponding ValidationMap that describes how to validate each field. The type looks as follows:
+I stumbled upon a type-aliasing issue in my work when I was creating a form component in React codebase. Each form has its own ValidationMap type that describes how to validate each field. The type looks as follows:
 
 ```tsx
 type FormValues<FieldName extends string = string> = Map<FieldName, string>;
@@ -23,7 +23,7 @@ type ValidationMap<FieldName extends string = string> =
   Map<FieldName, FieldValidators<FieldName>>;
 ```
 
-If you're wondering what does the type constraint `FieldName extends string = string` stands for, it's a nice way of declaring that this type can accept an enum (with strings as values) or a string literal type (f.e. `type SignupFormFields = 'email' | 'password' | 'rememberMe'`), but it can be completely skipped and any string will be accepted. That way I can create different `ValidationMap`s for forms with their own fields. Fields for each type can be a different enum, which gives me an additional way of protecting myself from typos. You can notice that `FieldName` is used twice in `ValidationMap`, once as a key in the map, and as a type passed to the value type.
+If you're wondering what does the type constraint `FieldName extends string = string` stands for, it's a nice way of declaring that this type can accept an enum (with strings as values) or a string literal type (f.e. `type SignupFormFields = 'email' | 'password' | 'rememberMe'`), but it can be completely skipped and any string will be accepted. That way I can create different `ValidationMap`s for forms with their own fields. Fields for each form can be a different enum, which gives me an additional way of protecting myself from typos. You can notice that `FieldName` appears twice in `ValidationMap`, once as a key in the map, and as a type passed to the value type. One of the things that bugs me in the type signature above is this `FieldName` duplication that I would love to avoid.
 
 ### The problem
 
@@ -35,7 +35,7 @@ const validationMap1 = new Map<SignupFields, FieldValidators<SignupFields>>([
 ]);
 ```
 
-While I'm a big fan of writing verbose code and I try to avoid abbreviations, this way of creating a new `ValidationMap` has become tedious and so I began to search to create an alias and have a shorter way of creating validation maps.
+While I'm a big fan of writing verbose code and I try to avoid abbreviations, this way of creating a new `ValidationMap` has quickly become tedious and so I began to search for a way to create an alias and have a shorter way of creating and declaring validation maps.
 
 We can use the `Map` constructor without type parameters, but we would need other means to annotate that we want a correct `ValidationMap` type. We can either annotate the variable or typecast the expression after the constructor:
 ```tsx
@@ -50,7 +50,7 @@ const validationMap3 = new Map([
 ]) as ValidationMap<SignupFields>;
 ```
 
-If you take a look at both of them you can notice that there's a typo in the password validator. I placed it there on purpose, and that's because both of them are ignored by the typescript compiler. So if we're not careful enough we might miss precious type system features and introduce an issue that might take a while to debug even with unit tests. Take a look at the [TS playground](https://www.typescriptlang.org/play?useUnknownInCatchVariables=true#code/C4TwDgpgBAYg9gJwLYDUCGAbArhAzgHhgEsIMATAOTSWggA9gIA7M3KXYBIpgcygF52nbjwB8AqAFk0YQiXJUaAGiFdeogNwBYAFC7QkWPLLoMRMmmCICxUpWq0GzVqpESOasRIDeuqFAxmHmAACwB+AC4oJiwkACMIBG0dfzBLRgQmSKgACgA3TBwojxEVADNEJAARSzQo+GRTHBtjRQhRAEoBcTi4OEC0Jl0AX2T9cGhTc0siOCZpWVsFByh6RhY2Et53YXUJBbk7NpUlk0xpqwQWo4dRTV1dZlioAGURLDBTtl8UqABRJBoIgYCQAcgggOBoKUfigAAU0LhcAB3RBkMFpJGohBkUEjB46ADGcw4UAKZgswFm8xkAEYJEwIMipDJ8G9eB8vidjFNKdY2e9PsZcHccgBtWFi9k8TnCgB0AKBGBU3gCQVCUQAzFBhgBdGG-KWCr5yhFYtEqtW8EIaqAAVh1+t0uo6YyJJOAZPOlOpCwATFFeTM5gdpbK7CKGUyWWBxZKw0KIwrIcqoKrArxbdq9Qb-EaOYnyLhTYiURa01aeDaQlEHTnna6CcSmKTyRdfTJtYJGcyFnHDQmTYrgZaM1XgFrHbmoPmZYXWCXzTjR0Fq7Wpw2oIioEGqSHWYPhZogA) and see for yourself all 3 ways to create `ValidationMap`. Only `validationMap1` is raising an error.
+If you take a look at both of them you can notice that there's a typo in the password validator. I placed it there on purpose, and that's because both of them are ignored by the typescript compiler. So if we're not careful enough we might miss precious type system features and introduce an issue that might take a while to debug even if we have solid unit test coverage in the codebase. Take a look at the [TS playground](https://www.typescriptlang.org/play?useUnknownInCatchVariables=true#code/C4TwDgpgBAYg9gJwLYDUCGAbArhAzgHhgEsIMATAOTSWggA9gIA7M3KXYBIpgcygF52nbjwB8AqAFk0YQiXJUaAGiFdeogNwBYAFC7QkWPLLoMRMmmCICxUpWq0GzVqpESOasRIDeuqFAxmHmAACwB+AC4oJiwkACMIBG0dfzBLRgQmSKgACgA3TBwojxEVADNEJAARSzQo+GRTHBtjRQhRAEoBcTi4OEC0Jl0AX2T9cGhTc0siOCZpWVsFByh6RhY2Et53YXUJBbk7NpUlk0xpqwQWo4dRTV1dZlioAGURLDBTtl8UqABRJBoIgYCQAcgggOBoKUfigAAU0LhcAB3RBkMFpJGohBkUEjB46ADGcw4UAKZgswFm8xkAEYJEwIMipDJ8G9eB8vidjFNKdY2e9PsZcHccgBtWFi9k8TnCgB0AKBGBU3gCQVCUQAzFBhgBdGG-KWCr5yhFYtEqtW8EIaqAAVh1+t0uo6YyJJOAZPOlOpCwATFFeTM5gdpbK7CKGUyWWBxZKw0KIwrIcqoKrArxbdq9Qb-EaOYnyLhTYiURa01aeDaQlEHTnna6CcSmKTyRdfTJtYJGcyFnHDQmTYrgZaM1XgFrHbmoPmZYXWCXzTjR0Fq7Wpw2oIioEGqSHWYPhZogA) and see for yourself all 3 ways to create `ValidationMap`. Only `validationMap1` is raising an error (and can be declared a winner so far).
 
 There's a fourth way, which is to create a generic function that accepts the same arguments as the map constructor and simply returns a new map.
 ```tsx
@@ -81,26 +81,35 @@ The only issue which we might encounter with this approach is if we're targettin
 
 `calling a builtin Map constructor without new is forbidden`
 
-That means we need to add `Map` polyfill and have it enabled even for browsers that have support for it. Check [TS playground](https://www.typescriptlang.org/play?target=1&useUnknownInCatchVariables=true#code/PQgEB4CcFMDNpgOwMbVAGwJYCMC8AiaAZwCYAGARgFZ9gA+AWACgAXATwAc0AxAe0gC2ANQCG6AK7Fw3TNHQATAHIiBaaAA8W0RPKKgiLSJkQBzULn2HjJuudABZER2myFy1QBpLR03QDczMzsXKAycvKiWPIiLPxELuHuapraut7WdgY+NnYA3sygGNomLAAWAPwAXKCI4gLYCAFMhRwxWpCIVaAAFABuYpLVWdZesPwCACIxItV8gpGS8WFuKtB0AJTmtti8vOjQIojMAL5NzNp1oADKmCa1HMtp+c2gAKICIpjodgDk0B9fH4eAqgAAKIiIRAA7vx5L9WpCYZB5D8ToEmMh0BC9JFMNEWJheIhHM5HklQBotDo9MNTJkrL4KSlqSCSQkVp5Qq4ImI8TE4uylKs6LZcsd0cgiQZQP0ojFCcSnFQ7IhoFDQLj8Qq2Tc7uIHtyiHRugBtEEm3X3R5EAB070+6C8uSKpjK1QAzKBjgBdYEvC23K2Gm3gxGwp0ukqlarKn1+73rPxAA) if you want to check it for yourself.
+That means we need to add `Map` polyfill and have it enabled even for browsers that have support for it. Check [TS playground](https://www.typescriptlang.org/play?target=1&useUnknownInCatchVariables=true#code/PQgEB4CcFMDNpgOwMbVAGwJYCMC8AiaAZwCYAGARgFZ9gA+AWACgAXATwAc0AxAe0gC2ANQCG6AK7Fw3TNHQATAHIiBaaAA8W0RPKKgiLSJkQBzULn2HjJuudABZER2myFy1QBpLR03QDczMzsXKAycvKiWPIiLPxELuHuapraut7WdgY+NnYA3sygGNomLAAWAPwAXKCI4gLYCAFMhRwxWpCIVaAAFABuYpLVWdZesPwCACIxItV8gpGS8WFuKtB0AJTmtti8vOjQIojMAL5NzNp1oADKmCa1HMtp+c2gAKICIpjodgDk0B9fH4eAqgAAKIiIRAA7vx5L9WpCYZB5D8ToEmMh0BC9JFMNEWJheIhHM5HklQBotDo9MNTJkrL4KSlqSCSQkVp5Qq4ImI8TE4uylKs6LZcsd0cgiQZQP0ojFCcSnFQ7IhoFDQLj8Qq2Tc7uIHtyiHRugBtEEm3X3R5EAB070+6C8uSKpjK1QAzKBjgBdYEvC23K2Gm3gxGwp0ukqlarKn1+73rPxAA) and click "run" there if you want to check the runtime issue for yourself.
 
-### Instantation expression
+### Enter Instantation expression
 
-With Instantiation Expressions I can create an alias for a `Map`, and then simply its constructor:
+With Instantiation Expressions I can create an alias for a `Map`, and then simply use its constructor. Unforutalnely, it's not working in a way that I wanted it to. Here's how I imagined the usage will look like:
+
 ```tsx
-const SignupValidationMap = Map<SignupFields, FieldValidators<SignupFields>>;
+const ValidationMap<FieldName extends string = string> =
+  Map<FieldName, FieldValidators<FieldName>>;
 
-const validationMap6 = new SignupValidationMap([
+const validationMap6 = new ValidationMap<SignupFields>([
   [SignupFields.Email, { length: 3 }],
   [SignupFields.Password, { length: 5 }],
 ]);
 ```
-It doesn't exactly look how I imagined it after reading about this new typescript feature, but there is a reason why it had to be written that way:
-1. I used native `Map` and not `ValidationMap` type in the example because instantiation expression doesn't work with types. They only work with classes and functions.
-2. I created an instantiation expression directly for `SignupValidationMap` and not a generic `ValidationMap` because instantiation expressions can't be generics themselves, they are **values** made by passing all required types to generic classes/functions.
 
-You read that right. The result is not an alias for a class, but **just** a value. That means we cannot use `SignupValidationMap` as a type.
+First of all, the instantation expressions cannot be generics, they must be a specific type, so instantiation expression `ValidationMap` is invalid syntax for typescript compiler. That means that I have to create it using a `Map` and specifying the FieldName:
 
-As previously if you want to see them for yourself check the [TS Playground](https://www.typescriptlang.org/play?useUnknownInCatchVariables=true#code/C4TwDgpgBAYg9gJwLYDUCGAbArhAzgHhgEsIMATAOTSWggA9gIA7M3KXYBIpgcygF52nbjwB8AqAFk0YQiXJUaAGiFdeogNwBYAFC7QkWPLLoMRMmmCICxUpWq0GzVqpESOasRIDeuqFAxmHmAACwB+AC4oJiwkACMIBG0dfzBLRgQmSKgACgA3TBwojxEVADNEJAARSzQo+GRTHBtjRQhRAEoBcTi4OEC0Jl0AX2T9cGhTc0siOCZpWVsFByh6RhY2Et53YXUJBbk7NpUlk0xpqwQWo4dRTV1dZlioAGUiHhiwU7ZfFKgAUSQaCIGAkAHIIECQWClH4oAAFNC4XAAd0QZHBaWRaIQZDBIweOgAxnMOK93p8phZgLN5jJ9jJ8G8PlgvsZcCdjFTLNYmRTWd87mNiaTgFACmZqbSFgA2CRMCAo8kssDcmlzBY5ADacK1zM+3wAdIDgRgVN4AkFQlEAMxQYYAXVhfwA9C6oAABYC4AC09EgROAfoQCEQuv1AvZhsR2PR5stvBC1qgAFZ7U6oG6oPgfas6AHGBjvVAEiE0HlZlgELoHR1hdwMmU0EToBGwABhOBIMBzZhi37+CUXaUyKJttUjsDJYaEklMMnj85SjUyABMEgnK9kbcFs9FUE3dLAq8OyxoefWLi2fEE1-EggOp2ORjsat5T9umiAA) to see my failed experiments with Instantiation Expressions.
+```tsx
+const SignupValidationMap = Map<SignupFields, FieldValidators<SignupFields>>;
+
+const validationMap7 = new SignupValidationMap([
+  [SignupFields.Email, { length: 3 }],
+  [SignupFields.Password, { length: 5 }],
+]);
+```
+There's another downside that doesn't seem obvious. The result of instantation expression is a value and it cannot be used as type, unless we use it with `typeof` operator.
+
+I you want to see them for yourself check the [TS Playground](https://www.typescriptlang.org/play?useUnknownInCatchVariables=true#code/C4TwDgpgBAYg9gJwLYDUCGAbArhAzgHhgEsIMATAOTSWggA9gIA7M3KXYBIpgcygF52nbjwB8AqAFk0YQiXJUaAGiFdeogNwBYAFC7QkWPLLoMRMmmCICxUpWq0GzVqpESOasRIDeuqFAxmHmAACwB+AC4oJiwkACMIBG0dfzBLRgQmSKgACgA3TBwojxEVADNEJAARSzQo+GRTHBtjRQhRAEoBcTi4OEC0Jl0AX2TdAHpxqABGADooAHVoAGNBpjhgKGWECEtobg5B4CJLIjgmKHowHdxcM6Y2NDYeZkSiZdwJqYABYFwAWiuEGWwEBCAQiF0y3OHCgpnMp3O0lktgUDkuThYbBKvHcwnUEmRcjsbRUqJMmARVgQLRJDlEml0umYsSgAGUiDwYmByWxfCkoABRJBoIgYCQAcggIrFEqUfigAAUnrgAO6IMiStK3dUIMgSkZMnSTKC-AFAkFgiEIZl0MCITbQh6bDlcrBgeEWY5ImQST2IphE13c3mMvTGn5-QF24GgxLWqEwzYFMxe+7IgBsEiYEFVcMpaZ9smD7tDOQA2gryyWecZcLNhaKMCpvAEgqEogBmKDDAC68oF1c5Ibrs2VOo1LbbvBCHagAFYe73dL2OmMdE7YTX-d7AzIAEyEmT4Gu8snGHfWE-D0t1hnrzfJgsB5EAdmzufZN49z93yP3FZVqeo6NmKU6BLwc7dn2A7+CaZrRpAlrxpCg7AXY9bjmqk5QK2EE8LOIRRIufYrmuRrcBkZRoMs0A1gAwnASD2jmTCbPycFTPu8xLFsawbFAWC4PszpHCcu4YtceB3DCUBPHJUAGBACrwVGFpxuCqH+CmVLpjIUTbr+elgPu66cVAIQ0QA1iAUARDkCo6YWe4mVESlwGUX5uj+qYvgeyTDLoQA) to see my failed experiments with Instantiation Expressions.
 
 ### Summary
 
