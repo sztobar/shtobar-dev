@@ -13,7 +13,7 @@ interface Props {
   title?: string;
   metaImage?: string;
   description?: string;
-  canonicalURL?: string | URL;
+  canonicalURL: string | URL;
   children: ComponentChildren;
   scripts?: string[];
 }
