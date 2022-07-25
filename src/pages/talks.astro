@@ -1,0 +1,33 @@
+---
+import { getExternalBlogPosts } from '../lib/external-blog-posts';
+import { getTalks } from '../lib/talks';
+import Layout from '../layouts/Layout';
+import ExternalBlogPostEntry from '../components/ExternalBlogPostEntry';
+import TalkEntry from '../components/TalkEntry';
+
+const talks = getTalks();
+const externalBlogPosts = getExternalBlogPosts();
+---
+
+<Layout title="Talks" canonicalURL={Astro.canonicalURL}>
+  <h2 class="page-heading">My talks</h2>
+  <p class="mb-6">
+    Occasionally, I've spoken to local meetup groups oriented around Frontend. I
+    want to share here those that were recored and those that have only slides.
+  </p>
+  <ul class="flex flex-col gap-3 mb-6">
+    {talks.map((talk) => <TalkEntry key={talk.label} {...talk} />)}
+  </ul>
+  <h2 class="page-heading">External blog posts</h2>
+  <p class="mb-6">
+    Besides my website I wrote a an article for the company where I work.
+  </p>
+  <ul class="flex flex-col gap-3">
+    {externalBlogPosts.map((externalBlogPost) => (
+      <ExternalBlogPostEntry
+        key={externalBlogPost.label}
+        {...externalBlogPost}
+      />
+    ))}
+  </ul>
+</Layout>

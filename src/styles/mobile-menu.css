@@ -1,0 +1,92 @@
+
+.menuRow:nth-child(1) > .menuOption {
+  @apply translate-x-[10%];
+}
+
+.menuRow:nth-child(2) > .menuOption {
+  @apply translate-x-[90%];
+}
+
+.menuRow:nth-child(2) > .menuOption > * {
+  @apply -translate-x-full;
+}
+
+.menuRow:nth-child(3) > .menuOption {
+  @apply translate-x-[20%];
+}
+
+.menuRow:nth-child(4) > .menuOption {
+  @apply translate-x-[80%];
+}
+
+.menuRow:nth-child(4) > .menuOption > * {
+  @apply -translate-x-full;
+}
+
+.mobile-menu-option {
+  --anim-duration: .4s;
+  --anim-timing-fn: ease-in-out;
+  --anim-delay: 0s;
+  --anim-count: 1;
+  --anim-direction: forwards;
+  animation: var(--anim-name) var(--anim-duration) var(--anim-timing-fn) var(--anim-delay) var(--anim-count) var(--anim-direction);
+}
+
+.mobile-menu-option__0 {
+  --anim-name: mobile-menu-option__0;
+  @apply translate-x-1/2;
+}
+
+@keyframes mobile-menu-option__0 {
+  from {
+    @apply translate-x-1/2;
+  }
+  to {
+    @apply translate-x-[10%];
+  }
+}
+
+.mobile-menu-option__1 {
+  --anim-name: mobile-menu-option__1;
+  --anim-delay: .05s;
+  @apply translate-x-1/2;
+}
+
+@keyframes mobile-menu-option__1 {
+  from {
+    @apply translate-x-1/2;
+  }
+  to {
+    @apply translate-x-[90%];
+  }
+}
+
+.mobile-menu-option__2 {
+  --anim-name: mobile-menu-option__2;
+  --anim-delay: .1s;
+  @apply translate-x-1/2;
+}
+
+@keyframes mobile-menu-option__2 {
+  from {
+    @apply translate-x-1/2;
+  }
+  to {
+    @apply translate-x-[20%];
+  }
+}
+
+.mobile-menu-option__3 {
+  --anim-name: mobile-menu-option__3;
+  --anim-delay: .15s;
+  @apply translate-x-1/2;
+}
+
+@keyframes mobile-menu-option__3 {
+  from {
+    @apply translate-x-1/2;
+  }
+  to {
+    @apply translate-x-[80%];
+  }
+}

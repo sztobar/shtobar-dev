@@ -1,0 +1,21 @@
+---
+import GameEntry from '../components/GameEntry';
+import Layout from '../layouts/Layout';
+import { getGames } from '../lib/games';
+
+const games = getGames();
+---
+
+<Layout title="Games" canonicalURL={Astro.canonicalURL}>
+  <article>
+    <h2 class="page-heading">My games</h2>
+    <p class="mb-6">
+      In my free time I like to create 2d games using Unity engine. I find
+      developing games to be super exciting and enjoyable. All of the titles
+      below are free-to-play in your browser.
+    </p>
+    <ul class="flex flex-col gap-3">
+      {games.map((game) => <GameEntry key={game.label} {...game} />)}
+    </ul>
+  </article>
+</Layout>

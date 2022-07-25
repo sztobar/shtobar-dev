@@ -1,0 +1,69 @@
+@import './markdown.css';
+@import './animated-logo.css';
+@import './hamburger-menu.css';
+@import './mobile-menu.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  @apply bg-zinc-50 text-zinc-800 border-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-200;
+}
+
+.base {
+  @apply bg-zinc-50 text-zinc-800 border-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-200;
+}
+
+a {
+  @apply text-green-700 dark:text-emerald-400 hover:underline;
+}
+
+.tag {
+  @apply text-green-700 dark:text-emerald-400;
+}
+
+.text-link {
+  @apply text-green-700 dark:text-emerald-400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.card {
+  @apply rounded-lg p-4 md:py-2 shadow-md border-solid border border-zinc-400/70 shadow-zinc-400/70 dark:border-zinc-900 dark:shadow-zinc-900;
+}
+
+
+.page-heading {
+  @apply mb-4 text-3xl;
+}
+
+#about-shtobar:target .dialog {
+  @apply block;
+}
+
+#about-shtobar:target .content {
+  @apply hidden;
+}
+
+.no-touch {
+  & .when__no-touch__inline {
+    @apply inline;
+  }
+  & .when__no-touch__hidden {
+    @apply hidden;
+  }
+}
+
+.why-shtobar .when__why-shtobar__block {
+  @apply block;
+}

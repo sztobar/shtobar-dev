@@ -1,0 +1,29 @@
+@import '../../node_modules/github-markdown-css/github-markdown.css';
+
+.markdown-body {
+  --color-canvas-default: theme('colors.zinc.50');
+  --color-fg-default: theme('colors.zinc.800');
+  --color-fg-muted: theme('colors.zinc.500');
+  --color-border-default: theme('colors.zinc.400');
+  --color-border-muted: theme('colors.zinc.300');
+
+  @media (prefers-color-scheme: dark) {
+    --color-canvas-default: theme('colors.zinc.800');
+    --color-fg-default: theme('colors.zinc.200');
+    --color-fg-muted: theme('colors.zinc.400');
+    --color-border-default: theme('colors.zinc.600');
+    --color-border-muted: theme('colors.zinc.700');
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style: initial;
+  }
+
+  a {
+    @apply text-green-600 dark:text-emerald-400;
+  }
+}

@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout';
+import Image from '../components/Image';
+import SocialIcons from '../components/SocialIcons'
+---
+
+<Layout
+  title="about"
+  canonicalURL={Astro.canonicalURL}
+  scripts={['scripts/main.js']}
+>
+  <div class="relative">
+    <article>
+      <h2 class="text-bold text-3xl mb-4">Hello, I'm Bartosz</h2>
+
+      <div class="content">
+        <div class="mb-3">
+          <p class="mb-1">
+            My name's Bartosz, on the internet I like to use the nickname
+            Shtobar <a role="button" id="why-shtobar__btn">(why?)</a>.
+          </p>
+          <div class="hidden when__why-shtobar__block text-sm my-3">
+            <div class="card">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 mr-2 inline"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width={2}
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              Shtobar is an anagram of my name Bartosz. I like to transform{' '}
+              <code class="text-sm px-1 py-0.5 rounded-md dark:bg-zinc-600 inline-block"
+                >sz
+              </code> into <code
+                class="text-sm px-1 py-0.5 rounded-md dark:bg-zinc-600 inline-block"
+                >sh
+              </code> because that's how it's pronounced in english.{' '}
+              <span class="hidden when__no-touch__inline">Hover</span>
+              <span class="when__no-touch__hidden">Tap</span> on the logo to see
+              how one transforms into the other.
+            </div>
+          </div>
+          <p class="mb-1">
+            I'm a programmer living in Cracow, who likes to share his knowledge
+            and create maintainable and readable software.
+          </p>
+          <SocialIcons/>
+        </div>
+
+        <div class="clear-both">
+          <h3 class="text-xl mb-2">As a web developer</h3>
+          <div class="mx-auto md:mr-4 md:float-left mb-5 w-[256px]">
+            <figure>
+              <Image
+                src="/images/avatars/me-at-meetup_256w.jpg"
+                alt="My photo"
+                width="256"
+                height="256"
+              />
+              <figcaption>
+                Me at local meetup before presenting a talk.
+              </figcaption>
+            </figure>
+          </div>
+          <p class="mb-1">
+            I work as a Frontend developer since 2015, having commercial
+            experience with technologies like angular.js (the first one),
+            React.js, Typescript & Node.js.
+          </p>
+          <p class="mb-1">
+            I like functional programming languages and try to incorporate
+            aspects of them as I see fit in my daily work. I tried to play
+            around with <a href="https://elm-lang.org/">Elm</a> and{' '}
+            <a href="https://clojurescript.org/">ClojureScript</a> but in the end
+            I still work with Typescript applications (although I managed to complete{' '}
+            <a href="https://adventofcode.com/">Advent of Code</a> using clojure
+            back in{' '}
+            <a
+              href="https://github.com/sztobar/adventofcode/tree/master/src/adventofcode2017"
+              class="inline-block"
+              >2017
+            </a>).
+          </p>
+        </div>
+
+        <div class="clear-both">
+          <h3 class="text-xl mt-4 mb-2">As a hobby game developer</h3>
+          <div class="mx-auto md:mr-4 md:float-left mb-5 w-[256px]">
+            <figure class="">
+              <Image
+                src="/images/avatars/avatar_256w.jpg"
+                alt="My avatar"
+                width="256"
+                height="256"
+              />
+              <figcaption>
+                An avatar I like to use, made by my awsome buddy{' '}
+                <a href="https://www.shogunpixelart.com/">Shogun</a>.
+              </figcaption>
+            </figure>
+          </div>
+          <p class="mb-1">
+            In my free time I like to try my hand at creating games in Unity
+            engine. I've participated in a few game jams with my friend{' '}
+            <a href="https://www.shogunpixelart.com/">Shogun</a>. For now, this
+            is just a loose hobby, hopefully it will become something more in
+            the future. All the games I have created can be viewed and played by
+            clicking on the games <a href="/games">link</a> at the top.
+          </p>
+        </div>
+        <div class="clear-both">
+          <h3 class="text-xl mt-4 mb-2">Outside being a programmer</h3>
+          <p class="mb-1">
+            Besides programming, my hobbies include tap dancing, playing the
+            piano and hiking. I adore classic nintendo games like Mario and
+            Zelda, although when it comes to modern games I appreciate much more
+            indie titles than Triple-A produtions.
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+</Layout>

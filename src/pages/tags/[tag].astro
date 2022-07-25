@@ -1,0 +1,54 @@
+---
+import { PAGE_TITLE } from '../../../tools/lib/constants';
+import { getPostsForTag, getAllTags } from '../../lib/tags';
+import { getSortedPosts, PostData } from '../../lib/posts';
+import Layout from '../../layouts/Layout';
+import PostCard from '../../components/PostCard';
+import TagsFilters from '../../components/TagsFilters';
+
+interface Props {
+  posts: PostData[];
+  tags: string[];
+  activeTag: string;
+}
+
+export async function getStaticPaths() {
+  const markdownPosts = await Astro.glob<PostData>('../posts/*.md');
+  const posts = getSortedPosts(markdownPosts);
+  const tags = getAllTags(posts);
+
+  return Promise.all(
+    tags.map(async (tag) => ({
+      params: {
+        tag,
+      },
+      props: {
+        posts: getPostsForTag(tag, posts),
+        tags,
+        activeTag: tag,
+      },
+    }))
+  );
+}
+
+const { posts, tags, activeTag } = Astro.props as Props;
+---
+
+<Layout title={PAGE_TITLE} canonicalURL={Astro.canonicalURL}>
+  <section>
+    <h2 class="page-heading">Blog #{activeTag}</h2>
+    <TagsFilters tags={tags} active={activeTag} />
+    <div class="flex flex-col gap-5">
+      {posts.map(({ url, pubDate, title, tag, description }) => (
+        <PostCard
+          url={url}
+          key={url}
+          pubDate={pubDate}
+          title={title}
+          description={description}
+          tag={tag}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>

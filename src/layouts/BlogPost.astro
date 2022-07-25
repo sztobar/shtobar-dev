@@ -1,0 +1,38 @@
+---
+import { META_IMAGE, PAGE_TITLE } from '../../tools/lib/constants';
+import { getMetaImage } from '../lib/meta';
+import { PostData } from '../lib/posts';
+import Layout from '../layouts/Layout';
+import Date from '../components/Date';
+import Tag from '../components/Tag';
+
+interface Props {
+  content: PostData;
+}
+
+const {
+  content: { title, description, pubDate, tag, image },
+} = Astro.props as Props;
+const metaImage = image ? getMetaImage(image) : META_IMAGE;
+---
+
+<Layout
+  title={`${title} - ${PAGE_TITLE}`}
+  description={description}
+  metaImage={metaImage}
+>
+  <article>
+    <h1 class="page-heading">{title}</h1>
+    <div class="flex justify-between mb-5">
+      <Date dateString={pubDate} />
+      <Tag tag={tag} link={true} />
+    </div>
+    <div class="markdown-body">
+      <slot />
+    </div>
+  </article>
+
+  <div class="mt-4">
+    <a href="/">← Back to home</a>
+  </div>
+</Layout>

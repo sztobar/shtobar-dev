@@ -1,0 +1,247 @@
+#animated-logo {
+  width: 160px;
+  @apply flex relative cursor-pointer;
+  --pos-timing-fn: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  --pos-duration: 0.75s;
+  --fade-duration: 0.3s;
+  --fade-pause: 0.2s;
+  --animation-delay: 1s;
+  --fade-delay: calc(
+    var(--animation-delay) + var(--pos-duration) + var(--fade-pause)
+  );
+  --fade-timing-fn: ease-in-out;
+
+  .touch & {
+    --animation-delay: 0s;
+  }
+}
+
+#animated-logo > * {
+  @apply absolute;
+}
+
+#animated-logo__S {
+  left: 0%;
+}
+
+#animated-logo:hover #animated-logo__S,
+#animated-logo.touched #animated-logo__S {
+  animation: my-name__S--pos var(--pos-duration) var(--pos-timing-fn)
+      var(--animation-delay) forwards,
+    my-name__S--fade-out var(--fade-duration) var(--fade-timing-fn)
+      var(--fade-delay) forwards;
+}
+
+@keyframes my-name__S--pos {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 71%;
+  }
+}
+
+@keyframes my-name__S--fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#animated-logo__s {
+  left: 71%;
+  opacity: 0;
+}
+
+#animated-logo:hover #animated-logo__s,
+#animated-logo.touched #animated-logo__s {
+  animation: my-name__s--fade-in var(--fade-duration) var(--fade-timing-fn)
+    var(--fade-delay) forwards;
+}
+
+@keyframes my-name__s--fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#animated-logo__h {
+  left: 14%;
+}
+
+#animated-logo:hover #animated-logo__h,
+#animated-logo.touched #animated-logo__h {
+  animation: my-name__h--pos var(--pos-duration) var(--pos-timing-fn)
+      var(--animation-delay) forwards,
+    my-name__h--fade-out var(--fade-duration) var(--fade-timing-fn)
+      var(--fade-delay) forwards;
+}
+
+@keyframes my-name__h--pos {
+  from {
+    left: 14%;
+  }
+  to {
+    left: 86%;
+  }
+}
+
+@keyframes my-name__h--fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#animated-logo__z {
+  left: 86%;
+  opacity: 0;
+}
+
+#animated-logo:hover #animated-logo__z,
+#animated-logo.touched #animated-logo__z {
+  animation: my-name__z--fade-in var(--fade-duration) var(--fade-timing-fn)
+    var(--fade-delay) forwards;
+}
+
+@keyframes my-name__z--fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#animated-logo__t {
+  left: 28%;
+}
+
+#animated-logo:hover #animated-logo__t,
+#animated-logo.touched #animated-logo__t {
+  animation: my-name__t--pos var(--pos-duration) var(--pos-timing-fn)
+    var(--animation-delay) forwards;
+}
+
+@keyframes my-name__t--pos {
+  from {
+    left: 28%;
+  }
+  to {
+    left: 42%;
+  }
+}
+
+#animated-logo__o {
+  left: 42%;
+}
+
+#animated-logo:hover #animated-logo__o,
+#animated-logo.touched #animated-logo__o {
+  animation: my-name__o--pos var(--pos-duration) var(--pos-timing-fn)
+    var(--animation-delay) forwards;
+}
+
+@keyframes my-name__o--pos {
+  from {
+    left: 42%;
+  }
+  to {
+    left: 57%;
+  }
+}
+
+#animated-logo__b {
+  left: 57%;
+}
+
+#animated-logo:hover #animated-logo__b,
+#animated-logo.touched #animated-logo__b {
+  animation: my-name__b--pos var(--pos-duration) var(--pos-timing-fn)
+      var(--animation-delay) forwards,
+    my-name__b--fade-out var(--fade-duration) var(--fade-timing-fn)
+      var(--fade-delay) forwards;
+}
+
+@keyframes my-name__b--pos {
+  from {
+    left: 57%;
+  }
+  to {
+    left: 0%;
+  }
+}
+
+@keyframes my-name__b--fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+#animated-logo__B {
+  left: 0%;
+  opacity: 0;
+}
+
+#animated-logo:hover #animated-logo__B,
+#animated-logo.touched #animated-logo__B {
+  animation: my-name__B--fade-in var(--fade-duration) var(--fade-timing-fn)
+    var(--fade-delay) forwards;
+}
+
+@keyframes my-name__B--fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#animated-logo__a {
+  left: 71%;
+}
+
+#animated-logo:hover #animated-logo__a,
+#animated-logo.touched #animated-logo__a {
+  animation: my-name__a--pos var(--pos-duration) var(--pos-timing-fn)
+    var(--animation-delay) forwards;
+}
+
+@keyframes my-name__a--pos {
+  from {
+    left: 71%;
+  }
+  to {
+    left: 14%;
+  }
+}
+
+#animated-logo__r {
+  left: 86%;
+}
+
+#animated-logo:hover #animated-logo__r,
+#animated-logo.touched #animated-logo__r {
+  animation: my-name__r--pos var(--pos-duration) var(--pos-timing-fn)
+    var(--animation-delay) forwards;
+}
+
+@keyframes my-name__r--pos {
+  from {
+    left: 86%;
+  }
+  to {
+    left: 28%;
+  }
+}

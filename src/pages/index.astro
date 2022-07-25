@@ -1,0 +1,35 @@
+---
+import { getAllTags } from '../lib/tags';
+import { getSortedPosts, PostData } from '../lib/posts';
+import Layout from '../layouts/Layout';
+import PostCard from '../components/PostCard';
+import TagsFilters from '../components/TagsFilters';
+
+interface Props {
+  allPostsData: PostData[];
+  tags: string[];
+}
+
+const markdownPosts = await Astro.glob<PostData>('./posts/*.md');
+const posts = getSortedPosts(markdownPosts);
+const tags = getAllTags(posts);
+---
+
+<Layout canonicalURL={Astro.canonicalURL}>
+  <section>
+    <h2 class="page-heading">Blog</h2>
+    <TagsFilters tags={tags} />
+    <div class="flex flex-col gap-5">
+      {posts.map(({ url, pubDate, title, tag, description }) => (
+        <PostCard
+          url={url}
+          key={url}
+          pubDate={pubDate}
+          title={title}
+          description={description}
+          tag={tag}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>
