@@ -4,6 +4,8 @@ import {
   PAGE_TITLE,
 } from '../../tools/lib/constants';
 
+import '../styles/globals.css';
+
 interface Props {
   title?: string;
   description?: string;

@@ -16,13 +16,14 @@ export const getTalks = () => [
     description:
       "A talk I did for the codete's mini series of webinars during the Covid-19 pandemic. It's about writing accessible web pages and testing it easily.",
   },
-  {
-    label: 'Javascript Refactoring toolkit',
-    year: '2021',
-    slidesUrl: '',
-    description:
-      'A comparison between three tools: regular expressions, codemods and comby.dev. Each one is tests against a real-life scenario on a code that requires a change in a large codebase.',
-  },
+  // TODO: deploy this talk somewhere
+  // {
+  //   label: 'Javascript Refactoring toolkit',
+  //   year: '2021',
+  //   slidesUrl: '',
+  //   description:
+  //     'A comparison between three tools: regular expressions, codemods and comby.dev. Each one is tests against a real-life scenario on a code that requires a change in a large codebase.',
+  // },
   {
     label: 'Monads for JavaScript developer',
     year: '2017',

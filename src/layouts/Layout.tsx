@@ -7,8 +7,6 @@ import MobileMenu from '../components/MobileMenu';
 import Footer from '../components/Footer';
 import Head from '../components/Head';
 
-import '../styles/globals.css';
-
 interface Props {
   title?: string;
   metaImage?: string;
@@ -46,9 +44,7 @@ export default function Layout({
               <Menu />
             </header>
             <MobileMenu />
-            <div className="page-contents flex-1">
-              <main>{children}</main>
-            </div>
+            <main className="page-contents flex-1">{children}</main>
             <Footer />
           </div>
         </div>
