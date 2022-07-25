@@ -2,7 +2,13 @@ document.documentElement.classList.add(
   'ontouchstart' in document.documentElement ? 'touch' : 'no-touch'
 );
 
-window.addEventListener('DOMContentLoaded', function () {
+function DOMReady(callback) {
+  document.readyState === 'interactive' || document.readyState === 'complete'
+    ? callback()
+    : document.addEventListener('DOMContentLoaded', callback);
+}
+
+DOMReady(function () {
   document
     .querySelector('#open-mobile-menu')
     .addEventListener('click', function () {

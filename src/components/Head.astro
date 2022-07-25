@@ -21,7 +21,6 @@ const {
   description = PAGE_DESCRIPTION,
   canonicalURL,
   metaImage = META_IMAGE,
-  scripts,
 } = Astro.props as Props;
 
 const metaImageUrl = path.join(Astro.site.toString(), metaImage);
@@ -51,11 +50,11 @@ const metaImageUrl = path.join(Astro.site.toString(), metaImage);
 <meta property="og:image" content={metaImageUrl} />
 
 {/* Twitter */}
-<meta property="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={metaImageUrl} />
+<meta name="twitter:site" content="@sztobar" />
 <meta property="twitter:url" content={canonicalURL.toString()} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={metaImageUrl} />
-<meta property="twitter:site" content="@sztobar" />
 
-{scripts?.map((src) => <script async src={src} />)}
+<script async is:inline src="/scripts/main.js"></script>
