@@ -1,6 +1,6 @@
 #animated-logo {
   width: 160px;
-  @apply flex relative cursor-pointer;
+  @apply flex relative;
   --pos-timing-fn: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   --pos-duration: 0.75s;
   --fade-duration: 0.3s;
