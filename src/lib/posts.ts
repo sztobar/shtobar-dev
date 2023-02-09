@@ -7,20 +7,24 @@ export interface PostData {
   description: string;
   tag: string;
   image?: string;
+  draft?: boolean;
 }
 
 export function getSortedPosts(
   markdownPosts: MarkdownInstance<PostData>[]
 ): PostData[] {
   if (process.env['NODE_ENV'] === 'production') {
-    markdownPosts = markdownPosts.filter(({ file }) => !file.match('/posts/test.md$'));
+    markdownPosts = markdownPosts.filter(
+      ({ file, frontmatter }) =>
+        !file.match('/posts/test.md$') && !frontmatter.draft
+    );
   }
 
   const posts = markdownPosts.map(({ frontmatter, url }) => ({
     url,
     ...frontmatter,
   }));
-  
+
   return sortByDate(posts);
 }
 

@@ -1,12 +1,12 @@
 export const getTalks = () => [
-  {
-    label: 'Advanced Typescript for people in hurry',
-    videoUrl: '',
-    slidesUrl: '',
-    year: '2022',
-    description:
-      'Half of it is about useful Typescript hints and tips, the other half is about nerdy stuff you might not know is possible with types alone.',
-  },
+  // {
+  //   label: 'Advanced Typescript for people in hurry',
+  //   videoUrl: '',
+  //   slidesUrl: '',
+  //   year: '2022',
+  //   description:
+  //     'Half of it is about useful Typescript hints and tips, the other half is about nerdy stuff you might not know is possible with types alone.',
+  // },
   {
     label: 'DOM Testing library: tests resembling user interaction',
     videoUrl: 'https://youtu.be/DA6kFH26WFA',

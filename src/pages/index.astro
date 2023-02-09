@@ -15,7 +15,7 @@ const posts = getSortedPosts(markdownPosts);
 const tags = getAllTags(posts);
 ---
 
-<Layout canonicalURL={Astro.canonicalURL}>
+<Layout>
   <section>
     <h2 class="page-heading">Blog</h2>
     <TagsFilters tags={tags} />
