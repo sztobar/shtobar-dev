@@ -20,7 +20,7 @@ const tags = getAllTags(posts);
     <h2 class="page-heading">Blog</h2>
     <TagsFilters tags={tags} />
     <div class="flex flex-col gap-5">
-      {posts.map(({ url, pubDate, title, tag, description }) => (
+      {posts.map(({ url, pubDate, title, tag, description, image }) => (
         <PostCard
           url={url}
           key={url}

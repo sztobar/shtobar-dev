@@ -1,12 +1,24 @@
 import Tag from './Tag';
 import Date from './Date';
 import { PostData } from '../lib/posts';
+import { getMetaImage } from '../lib/meta';
 
 interface Props extends PostData {
   key: string;
+  url: PostData['url'];
+  title: PostData['title'];
+  description: PostData['description'];
+  pubDate: PostData['pubDate'];
+  tag: PostData['tag'];
 }
 
-export default function PostCard({ url, title, description, pubDate, tag }: Props) {
+export default function PostCard({
+  url,
+  title,
+  description,
+  pubDate,
+  tag,
+}: Props) {
   return (
     <a
       href={url}

@@ -9,7 +9,6 @@ interface Props {
   types?: ImageType[];
   responsive?: boolean;
   src: string;
-  sources?: ImageSources[];
   width?: string;
   height?: string;
 }
@@ -18,12 +17,11 @@ export default function Image({
   className,
   pictureClassName,
   alt,
-  sources,
   src,
   width,
   height,
 }: Props) {
-  sources = getSources(src);
+  const sources = getSources(src);
 
   return (
     <picture className={pictureClassName}>

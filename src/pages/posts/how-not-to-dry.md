@@ -27,7 +27,7 @@ const guestAddress = getGuestAddress(data);
 
 Much better! Not only the function is more clear in what it does, the variable to which we assign the result of function is also named in a more explicit way. We can understand by looking at two function what the false meant in the first example.
 
-Let's assume that there are more than one FlagArgument (`isBillingAddress`), if we were to split our functions into separate one we would get:
+Let's assume that there are more than one FlagArgument (introducing `isBillingAddress`), if we were to split our functions into separate one we would get:
 
 ```tsx
 const billingAddress = getBillingAddress(data);
@@ -72,7 +72,12 @@ The `options` argument gives us opportunity to describe the function interface a
 
 There's certain danger to `options` argument, specifically when we declare them at the root of our functions and pass them down everywhere. If we're not careful and we add a new option as the project grows, we might end up creating something like this:
 
-![functions call tree with options passed down](./how-not-to-dry/functions-tree-options.jpg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/images/posts/how-not-to-dry/functions-tree-options-dark.drawio.svg">
+  <img alt="functions call tree with options passed down" src="/images/posts/how-not-to-dry/functions-tree-options-light.drawio.svg">
+</picture>
+
+Passing `option` to every function makes it hard to read, maintain and extend the functions.
 
 ## Flag Argument in UI codebase
 
@@ -96,7 +101,7 @@ const FooLabel = ({ isInline, image, href, text }: FooLabelProps) => (
 )
 ```
 
-It's only a simple functional component, but there are so many conditions that it's hard to follow and modify this component. Even without a single `if` statement, a lot of ternary operators and `&&` operator make the code hard to read.
+It's only a simple functional component, but there are so many conditions that it is hard to follow and modify this component. Even without a single `if` statement, we got ourselves a lot of ternary operators and `&&` operator that make the code hard to read.
 
 It's a made up component, inspired by the code that I have encountered in my work. As I tried to refactor it I learned that was mutually exclusive for `Label` to either have an image and `isInline` flag. So naturally it was much easier to rewrite it into 3 different components:
 
@@ -107,7 +112,9 @@ interface SpanOrAnchorProps {
   href?: string;
   children: ReactNode
 }
-const SpanOrAnchor = ({children, href}: SpanOrAnchorProps) => (<Span {...(href && { href, as: 'a' })} >{children}</Span>)
+const SpanOrAnchor = ({children, href}: SpanOrAnchorProps) => (
+  <Span {...(href && { href, as: 'a' })} >{children}</Span>
+);
 
 interface TextLabelProps {
   href?: string;
@@ -138,9 +145,9 @@ const InlineLabel = ({ href, text }: TextLabelProps) => (
   </SmallLabel>
 )
 ```
-We got ourselves much more code, but it's much more clean what each part is reponsbile for and how each component will be styled. As an addition I've extracted `SmallLabel` and `SpanOrAnchor` because their logic were repeated. There's still repetition in the code, because we have 2 places where we render `SmallLabel` and 3 where we render `SpanOrAnchor` but it's good kind of repetition. If we would try to "make it more dry" we might easily get back to the `FooLabel` situtation with too many conditions in a small piece of code.
+We got ourselves much more code, but it's much more clean what each part is reponsbile for and how each component will be styled. As an addition I've extracted `SmallLabel` and `SpanOrAnchor` because their logic would end up repeated. There's still repetition in the code, because we have 2 places where we render `SmallLabel` and 3 where we render `SpanOrAnchor` but it's good kind of repetition. If we would try to "make it more dry" we might easily get back to the `FooLabel` situtation with too many conditions in a small piece of code.
 
-Similar as with addresses, at certain points in our codebase we might not know which variation to use so we stil might need a generic component that will decide which version to render:
+Similar as with addresses, at certain places in our codebase we might not know which variation to use so we stil might need a generic component that will decide which version to render:
 ```tsx
 interface InlineLabelProps extends TextLabelProps {
   isInline: boolean
@@ -158,13 +165,13 @@ const FooLabel = ({ isInline, image, href, text }: FooLabelProps) => {
 }
 ```
 
-As an extra thing I declared FooLabelProps as a type union to make it even more clear that inline and image variants are mutually exclusive.
+As an extra thing I declared FooLabelProps as a type union to make it even more clear that inline and image variants are mutually exclusive. Having one interface with a lot of optional props might indicate that it's possible to have all of them at once which should affect the result and it's the opposite.
 
 ## V2 Prop
 
 In my opinion having a lot of specific code is better than short code with a ton of conditionals inside. This leads me to a pattern that I don't have a specific name for but because of the situations where I encountered it, I name it a `v2` prop antipattern.
 
-Let's say we have a pretty complex component, not something simple as a label, but rather a global page `Header`. Now let's assume that a requirement appears that a component needs to be reworked but it's not clear if the change is positive so an AB-test is run. This means we need to extend our component and maintain both versions simultaneously. A new version should be rendered if `v2={true}` prop is passed.
+Let's say we have a pretty complex component, not something simple as a label, but rather a global page `Header` component. Now let's assume that a requirement appears that a component needs to be reworked but it's not clear if the change is positive so an AB-test is started. This means we need to extend our component and maintain both versions simultaneously. A new version should be rendered if `v2={true}` prop is passed.
 
 Depending on the component complexity and the scope of differences between `v1` and `v2` it might be temping to simply pass `v2` to each subcomponent that should be rendered differently or have a different behaviour. This can lead to the similar situation like with `FooLabel`:
 
@@ -186,7 +193,7 @@ const Header = ({v2, ...props}) => {
 
 `v2` might need to be passed quite far down, but it's not a problem of passing the prop on it's own. Normally we might use context for such problem, it's so common that even React Docs have an article about it and names it [props drooling](https://beta.reactjs.org/learn/passing-data-deeply-with-context#the-problem-with-passing-props).
 
-The problem is how `v2` might introduce a lot of small style changes:
+The problem is how `v2` might introduce a lot of small style (and other) changes:
 ```tsx
 const LinkSection = ({v2...props}) => {
   const title = useTitle(props, v2);
@@ -201,7 +208,8 @@ const LinkSection = ({v2...props}) => {
 ```
 Don't mind the ugly code, it's only there to show how a single `FlagArgument` can introduce a lot of noise, and if many components have similar `v2` usage we end up with something like this:
 
-![component tree with v2](./how-not-to-dry/component-tree-with-v2.jpg)
+![component tree with v2](./how-not-to-dry/component-tree-with-v2-light.drawio.png#gh-light-mode-only)
+![component tree with v2](./how-not-to-dry/component-tree-with-v2-dark.drawio.png#gh-dark-mode-only)
 
 This will be hard to code review, maintain and later clear when we decide to stick only with a single version. But there's no repetiton, right?
 
@@ -235,7 +243,8 @@ const LinkSectionV2 = ({ ...props}) => {
 
 Again, we got a more code, and we would split it across many files but there's only a single condition at the very top, and lower we got a small dedicated components and functions that are clear to read.
 
-![two version components](./how-not-to-dry/two version components.jpg)
+![two version components](./how-not-to-dry/component-tree-with-v2-fixed-light.drawio.png#gh-light-mode-only)
+![two version components](./how-not-to-dry/component-tree-with-v2-fixed-dark.drawio.png#gh-dark-mode-only)
 
 What are the benefits of writing the components this way:
 1. Despite more code to read, it's easy to know what part is responsible for what, and what will be specific function/component return value

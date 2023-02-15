@@ -12,6 +12,16 @@ export async function getImagePaths(baseDir: string, config: ImagePathConfig) {
   return matchGroups.flat();
 }
 
+export async function isProcessedFileExist(filePath: string) {
+  try {
+    const globPattern = `${filePath}.*`;
+    const matches = await promiseGlob(globPattern);
+    return matches.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function getImagePatterns(config: ImagePathConfig) {
   return 'imagePath' in config ? [config.imagePath] : config.imagePaths;
 }
