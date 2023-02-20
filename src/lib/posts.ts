@@ -7,7 +7,6 @@ export interface PostData {
   description: string;
   tag: string;
   image?: string;
-  draft?: boolean;
 }
 
 export function getSortedPosts(
@@ -15,8 +14,7 @@ export function getSortedPosts(
 ): PostData[] {
   if (process.env['NODE_ENV'] === 'production') {
     markdownPosts = markdownPosts.filter(
-      ({ file, frontmatter }) =>
-        !file.match('/posts/test.md$') && !frontmatter.draft
+      ({ frontmatter }) => !frontmatter.draft
     );
   }
 

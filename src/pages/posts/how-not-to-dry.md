@@ -5,7 +5,6 @@ description: Flag Argument and making more code for less mistakes
 image: how-not-to-dry.png
 pubDate: '2023-02-01'
 tag: webdev
-draft: true
 ---
 
 DRY is short for don't-repeat-yourself and it's a widely known concept in software engineering, but it can cause harm if we're trying too hard to squeeze and extract every possible code repetition. Nowadays more and more developers agree that "good repetition is better than weak abstraction". In this post I want to write a common problem that I see quite frequently when it comes to applying the DRY rule.
