@@ -10,17 +10,19 @@ export interface PostData {
 }
 
 export function getSortedPosts(
-  markdownPosts: MarkdownInstance<PostData>[]
+  markdownPosts: MarkdownInstance<Omit<PostData, 'url'>>[]
 ): PostData[] {
   if (process.env['NODE_ENV'] === 'production') {
-    markdownPosts = markdownPosts.filter(({ file }) => !file.match('/posts/test.md$'));
+    markdownPosts = markdownPosts.filter(
+      ({ frontmatter }) => !frontmatter.draft
+    );
   }
 
-  const posts = markdownPosts.map(({ frontmatter, url }) => ({
-    url,
+  const posts = markdownPosts.map(({ frontmatter, url, file }) => ({
+    url: url ?? file,
     ...frontmatter,
   }));
-  
+
   return sortByDate(posts);
 }
 

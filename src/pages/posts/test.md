@@ -4,6 +4,7 @@ title: Test Post
 description: This is a test post to check every possible markdown node
 pubDate: '2020-01-01'
 tag: gamedev
+draft: true
 ---
 
 This article should not appear in built blog, it's only usable during the develoment

@@ -10,11 +10,10 @@ interface Props {
   title?: string;
   metaImage?: string;
   description?: string;
-  canonicalURL: string | URL;
   scripts?: string[];
 }
 
-const { title, description, metaImage, canonicalURL, scripts } =
+const { title, description, metaImage, scripts } =
   Astro.props as Props;
 ---
 
@@ -24,7 +23,6 @@ const { title, description, metaImage, canonicalURL, scripts } =
       title={title}
       description={description}
       metaImage={metaImage}
-      canonicalURL={canonicalURL}
       scripts={scripts}
     />
   </head>

@@ -1,13 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Image from '../components/Image';
-import SocialIcons from '../components/SocialIcons'
+import SocialIcons from '../components/SocialIcons';
 ---
 
-<Layout
-  title="about"
-  canonicalURL={Astro.canonicalURL}
->
+<Layout title="about">
   <div class="relative">
     <article>
       <h2 class="text-bold text-3xl mb-4">Hello, I'm Bartosz</h2>
@@ -35,7 +32,8 @@ import SocialIcons from '../components/SocialIcons'
                 ></path>
               </svg>
               Shtobar is an anagram of my name Bartosz. I like to transform{' '}
-              <code class="text-sm px-1 py-0.5 rounded-md dark:bg-zinc-600 inline-block"
+              <code
+                class="text-sm px-1 py-0.5 rounded-md dark:bg-zinc-600 inline-block"
                 >sz
               </code> into <code
                 class="text-sm px-1 py-0.5 rounded-md dark:bg-zinc-600 inline-block"
@@ -50,7 +48,7 @@ import SocialIcons from '../components/SocialIcons'
             I'm a programmer living in Cracow, who likes to share his knowledge
             and create maintainable and readable software.
           </p>
-          <SocialIcons/>
+          <SocialIcons />
         </div>
 
         <div class="clear-both">
@@ -69,14 +67,19 @@ import SocialIcons from '../components/SocialIcons'
             </figure>
           </div>
           <p class="mb-1">
-            I work as a Frontend developer since 2015, having commercial
-            experience with technologies like angular.js (the first one),
-            React.js, Typescript & Node.js.
+            I am a frontend developer, who started with jQuery and AngularJS (<a
+              href="https://angularjs.org/"
+              >the first one
+            </a>), and now my main stack is React + Typescript, with a little
+            knowledge of Node.js.
           </p>
           <p class="mb-1">
             I like functional programming languages and try to incorporate
-            aspects of them as I see fit in my daily work. I tried to play
-            around with <a href="https://elm-lang.org/">Elm</a> and{' '}
+            aspects of them as I see fit in my daily work, but without forcing
+            its conventions everywhere. I tried to play around with <a
+              href="https://elm-lang.org/"
+              >Elm
+            </a> and{' '}
             <a href="https://clojurescript.org/">ClojureScript</a> but in the end
             I still work with Typescript applications (although I managed to complete{' '}
             <a href="https://adventofcode.com/">Advent of Code</a> using clojure
@@ -92,7 +95,7 @@ import SocialIcons from '../components/SocialIcons'
         <div class="clear-both">
           <h3 class="text-xl mt-4 mb-2">As a hobby game developer</h3>
           <div class="mx-auto md:mr-4 md:float-left mb-5 w-[256px]">
-            <figure class="">
+            <figure>
               <Image
                 src="/images/avatars/avatar_256w.jpg"
                 alt="My avatar"
@@ -116,11 +119,32 @@ import SocialIcons from '../components/SocialIcons'
         </div>
         <div class="clear-both">
           <h3 class="text-xl mt-4 mb-2">Outside being a programmer</h3>
+          <div class="mx-auto md:mr-4 md:float-left mb-5 w-[256px]">
+            <figure>
+              <Image
+                src="/images/avatars/tap_dance_927w.jpg"
+                alt="Performance at the end of the school year"
+                width="256"
+                height="256"
+              />
+              <figcaption>
+                Performance at the end of the school year, made by{' '}
+                <a
+                  href="https://www.facebook.com/LensPeriencePhotography"
+                  set:text={'LensPerience Photography'}></a>.
+              </figcaption>
+            </figure>
+          </div>
           <p class="mb-1">
-            Besides programming, my hobbies include tap dancing, playing the
-            piano and hiking. I adore classic nintendo games like Mario and
-            Zelda, although when it comes to modern games I appreciate much more
-            indie titles than Triple-A produtions.
+            Besides programming, my biggest hobby is tap dancing, videos of my
+            performance can be seen on youtube <a
+              href="https://youtu.be/2MwxCesb6i0"
+              set:text={'here'}></a> and <a
+              href="https://youtu.be/5oXrmCYBpog"
+              set:text={'here'}></a>. Other than programming and dancing I like
+            playing the piano and hiking. I really enjoy classic nintendo games
+            like Mario and Zelda, although when it comes to modern games I
+            appreciate much more indie titles than Triple-A produtions.
           </p>
         </div>
       </div>

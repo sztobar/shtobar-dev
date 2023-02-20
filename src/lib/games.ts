@@ -1,5 +1,13 @@
 export const getGames = () => [
   {
+    label: 'Super Plantoid',
+    url: 'https://dans17.itch.io/super-plantoid',
+    image: 'super_plantoid_960x768.jpg',
+    year: '2023',
+    description:
+      'A Ludum Dare 52 entry. A simple 2d metroidvania platformer in space. You plant seeds to grow berries that can be thrown at enemies and give you powerups.',
+  },
+  {
     label: 'Descent',
     url: 'https://www.newgrounds.com/portal/view/780543',
     image: 'descent_620x360.jpg',

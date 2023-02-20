@@ -2,7 +2,11 @@ import fs from 'fs/promises';
 import path from 'path';
 // @ts-expect-error
 import { ImagePool } from '@squoosh/lib';
-import { getImagePaths, ImagePathConfig } from './image-paths';
+import {
+  getImagePaths,
+  ImagePathConfig,
+  isProcessedFileExist,
+} from './image-paths';
 import { getResizeConfig } from './resize';
 import { RenameConfig, renameFile } from './rename';
 
@@ -64,55 +68,66 @@ class ImageProcessor {
     imagePath: string,
     { resize, encode, rename }: ImageConfig
   ) {
-    console.log(`Processing ${imagePath}`);
-    const image = this.imagePool.ingestImage(imagePath);
-
-    const imageData: {
-      bitmap: { width: number; height: number };
-      size: number;
-    } = await image.decoded;
-    const imagePathObj = path.parse(imagePath);
-    let imageOutName = imagePathObj.name;
-
-    if (resize) {
-      await image.preprocess(
-        getResizeConfig({
-          width: imageData.bitmap.width,
-          height: imageData.bitmap.height,
-          resize,
-        })
+    try {
+      const imagePathObj = path.parse(imagePath);
+      let imageOutName = imagePathObj.name;
+      const newImagePath = path.join(
+        this.outDir,
+        imagePathObj.dir.substring(this.baseDir.length),
+        imageOutName
       );
-    }
+      const processedFileExists = await isProcessedFileExist(newImagePath);
+      if (processedFileExists) {
+        console.log(
+          `Skipping ${imagePath}, Processed file exists. Remove all its extensions from ${this.outDir} to process it again.`
+        );
+        return;
+      }
 
-    if (rename) {
-      imageOutName = renameFile(imagePathObj.name, rename);
-    }
+      console.log(`Processing ${imagePath}`);
+      const image = this.imagePool.ingestImage(imagePath);
 
-    await image.encode(encode);
+      const imageData: {
+        bitmap: { width: number; height: number };
+        size: number;
+      } = await image.decoded;
 
-    const newImagePath = path.join(
-      this.outDir,
-      imagePathObj.dir.substring(this.baseDir.length),
-      imageOutName
-    );
-    const encodedImages = Object.values(image.encodedWith) as Array<
-      Promise<{
-        extension: string;
-        binary: string;
-      }>
-    >;
-    await fs.mkdir(path.dirname(newImagePath), { recursive: true });
+      if (resize) {
+        await image.preprocess(
+          getResizeConfig({
+            width: imageData.bitmap.width,
+            height: imageData.bitmap.height,
+            resize,
+          })
+        );
+      }
 
-    for await (const encodedImage of encodedImages) {
-      const outPath = `${newImagePath}.${encodedImage.extension}`;
-      console.log(`Writing ${imagePath} as ${outPath}`);
-      await fs.writeFile(outPath, encodedImage.binary);
-    }
+      if (rename) {
+        imageOutName = renameFile(imagePathObj.name, rename);
+      }
 
-    if (!encode.hasOwnProperty('mozjpeg')) {
-      const outPath = `${newImagePath}${imagePathObj.ext}`;
-      console.log(`Writing ${imagePath} as ${outPath}`);
-      await fs.copyFile(imagePath, outPath);
+      await image.encode(encode);
+      const encodedImages = Object.values(image.encodedWith) as Array<
+        Promise<{
+          extension: string;
+          binary: string;
+        }>
+      >;
+      await fs.mkdir(path.dirname(newImagePath), { recursive: true });
+
+      for await (const encodedImage of encodedImages) {
+        const outPath = `${newImagePath}.${encodedImage.extension}`;
+        console.log(`Writing ${imagePath} as ${outPath}`);
+        await fs.writeFile(outPath, encodedImage.binary);
+      }
+
+      if (!encode.hasOwnProperty('mozjpeg')) {
+        const outPath = `${newImagePath}${imagePathObj.ext}`;
+        console.log(`Writing ${imagePath} as ${outPath}`);
+        await fs.copyFile(imagePath, outPath);
+      }
+    } catch (e) {
+      console.error(e);
     }
 
     return;
@@ -130,7 +145,7 @@ class ImageProcessor {
     await fs.mkdir(path.dirname(newImagePath), { recursive: true });
 
     const outPath = `${newImagePath}${imagePathObj.ext}`;
-    console.log(`Writing ${imagePath} as ${outPath}`);
+    console.log(`Copying ${imagePath} as ${outPath}`);
     await fs.copyFile(imagePath, outPath);
 
     return;

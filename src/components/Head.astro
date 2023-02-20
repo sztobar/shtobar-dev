@@ -4,14 +4,12 @@ import {
   PAGE_DESCRIPTION,
   PAGE_TITLE,
 } from '../../tools/lib/constants';
-import { Debug } from 'astro/components';
 
 import '../styles/globals.css';
 
 interface Props {
   title?: string;
   description?: string;
-  canonicalURL: string | URL;
   metaImage?: string;
   scripts?: string[];
 }
@@ -19,13 +17,14 @@ interface Props {
 const {
   title = PAGE_TITLE,
   description = PAGE_DESCRIPTION,
-  canonicalURL,
   metaImage = META_IMAGE,
 } = Astro.props as Props;
 
-const metaImageUrl = new URL(Astro.site);
+const metaImageUrl = new URL(Astro.site as URL);
 metaImageUrl.pathname = metaImage;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 ---
+
 {/* Global Metadata */}
 <meta charset="utf-8" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -44,7 +43,7 @@ metaImageUrl.pathname = metaImage;
 
 {/* Open Graph / Facebook */}
 <meta property="og:type" content="website" />
-<meta property="og:url" content={canonicalURL.toString()} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={metaImageUrl} />
@@ -53,8 +52,8 @@ metaImageUrl.pathname = metaImage;
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content={metaImageUrl} />
 <meta name="twitter:site" content="@sztobar" />
-<meta property="twitter:url" content={canonicalURL.toString()} />
+<meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 
-<script async is:inline src="/scripts/main.js"></script>
+<script async is:inline src="/scripts/main.js"/>

@@ -18,7 +18,7 @@ export async function getStaticPaths() {
   const tags = getAllTags(posts);
 
   return Promise.all(
-    tags.map(async (tag) => ({
+    tags.map((tag) => ({
       params: {
         tag,
       },
@@ -34,7 +34,7 @@ export async function getStaticPaths() {
 const { posts, tags, activeTag } = Astro.props as Props;
 ---
 
-<Layout title={PAGE_TITLE} canonicalURL={Astro.canonicalURL}>
+<Layout title={PAGE_TITLE}>
   <section>
     <h2 class="page-heading">Blog #{activeTag}</h2>
     <TagsFilters tags={tags} active={activeTag} />
