@@ -3,7 +3,7 @@ layout: '../../layouts/BlogPost.astro'
 title: How not to DRY
 description: Flag Argument and making more code for less mistakes
 image: how-not-to-dry.png
-pubDate: '2023-02-01'
+pubDate: '2023-02-20'
 tag: webdev
 ---
 
