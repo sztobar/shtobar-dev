@@ -26,7 +26,6 @@
   "dependencies": {
     "@astrojs/rss": "^0.2.2",
     "github-markdown-css": "^5.1.0",
-    "preact": "^10.10.0",
-    "typescript": "^4.9.5"
+    "preact": "^10.10.0"
   }
 }
