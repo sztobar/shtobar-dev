@@ -208,8 +208,10 @@ const LinkSection = ({v2...props}) => {
 ```
 Don't mind the ugly code, it's only there to show how a single `FlagArgument` can introduce a lot of noise, and if many components have similar `v2` usage we end up with something like this:
 
-![component tree with v2](./how-not-to-dry/component-tree-with-v2-light.drawio.png#gh-light-mode-only)
-![component tree with v2](./how-not-to-dry/component-tree-with-v2-dark.drawio.png#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/images/posts/how-not-to-dry/component-tree-with-v2-dark.drawio.svg">
+  <img alt="functions call tree with options passed down" src="/images/posts/how-not-to-dry/component-tree-with-v2-light.drawio.svg">
+</picture>
 
 This will be hard to code review, maintain and later clear when we decide to stick only with a single version. But there's no repetiton, right?
 
@@ -243,8 +245,12 @@ const LinkSectionV2 = ({ ...props}) => {
 
 Again, we got a more code, and we would split it across many files but there's only a single condition at the very top, and lower we got a small dedicated components and functions that are clear to read.
 
-![two version components](./how-not-to-dry/component-tree-with-v2-fixed-light.drawio.png#gh-light-mode-only)
-![two version components](./how-not-to-dry/component-tree-with-v2-fixed-dark.drawio.png#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/images/posts/how-not-to-dry/component-tree-with-v2-fixed-dark.drawio.svg">
+  <img alt="functions call tree with options passed down" src="/images/posts/how-not-to-dry/component-tree-with-v2-fixed-light.drawio.svg">
+</picture>
+
+At first, it may seem that we've got a lot more complex code. While it's true that there's more of it, and popular belief is less code leads to less room for mistakes. But here we've got ourselves more code to hide all conditionals, and end up with only one - at the very root level.
 
 What are the benefits of writing the components this way:
 1. Despite more code to read, it's easy to know what part is responsible for what, and what will be specific function/component return value
@@ -256,5 +262,5 @@ What are the benefits of writing the components this way:
 I want to make it clear for myself and the other developer, the points that I describe above are not only applicable to UI development:
 
 * The FlagArgument can be harmful even if it's name and purpose is clear.
-* conditions are making the code harder to read, but well structured `if` statements can still make a much more readable code than a lot of ternary and `&&` operators
+* conditions are making the code harder to read, but well structured `if` statements can make a much more readable code than a lot of ternary and `&&` operators
 * more code with clear separation of responsibility and purpose are better than squezing too many inside smaller codebase

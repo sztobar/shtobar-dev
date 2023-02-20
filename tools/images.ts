@@ -21,7 +21,7 @@ processImages({
       ],
     },
     {
-      imagePaths: ['avatars/*', 'games/*', 'posts/**/*.!(svg)'],
+      imagePaths: ['avatars/*', 'games/*', 'posts/**/*.@(png|jpg)'],
       config: [
         {
           rename: {
@@ -36,10 +36,7 @@ processImages({
       ],
     },
     {
-      imagePaths: ['meta/*'],
-    },
-    {
-      imagePaths: ['posts/**/*.svg'],
+      imagePaths: ['meta/*', 'posts/**/*.svg'],
     },
   ],
 });
