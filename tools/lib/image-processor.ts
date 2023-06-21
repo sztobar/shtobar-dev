@@ -44,16 +44,16 @@ class ImageProcessor {
     const imagePaths = await getImagePaths(this.baseDir, imagePathConfig);
     if (config) {
       const configs = Array.isArray(config) ? config : [config];
-      return this.processWithConfig(imagePaths, configs);
+      return this.processImagesWithConfigs(imagePaths, configs);
     } else {
       return this.copyFiles(imagePaths);
     }
   }
 
-  async processWithConfig(imagePaths: string[], configs: ImageConfig[]) {
+  async processImagesWithConfigs(imagePaths: string[], configs: ImageConfig[]) {
     for (const imagePath of imagePaths) {
-      for (const singleConfig of configs) {
-        this.processes.push(this.processImage(imagePath, singleConfig));
+      for (const config of configs) {
+        this.processes.push(this.processImageWithConfig(imagePath, config));
       }
     }
   }
@@ -64,13 +64,13 @@ class ImageProcessor {
     }
   }
 
-  private async processImage(
+  private async processImageWithConfig(
     imagePath: string,
     { resize, encode, rename }: ImageConfig
   ) {
     try {
       const imagePathObj = path.parse(imagePath);
-      let imageOutName = imagePathObj.name;
+      const imageOutName = rename ? renameFile(imagePathObj.name, rename): imagePathObj.name;
       const newImagePath = path.join(
         this.outDir,
         imagePathObj.dir.substring(this.baseDir.length),
@@ -100,10 +100,6 @@ class ImageProcessor {
             resize,
           })
         );
-      }
-
-      if (rename) {
-        imageOutName = renameFile(imagePathObj.name, rename);
       }
 
       await image.encode(encode);
