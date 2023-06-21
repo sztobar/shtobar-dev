@@ -13,6 +13,7 @@ processImages({
           rename: {
             append: '-2x'
           },
+          resize: 2,
           encode: encodeLow,
         },
         {
